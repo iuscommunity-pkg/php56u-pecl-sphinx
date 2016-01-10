@@ -1,16 +1,15 @@
-%{!?__pecl:      %global __pecl      %{_bindir}/pecl}
+# IUS spec file for php56u-pecl-sphinx, forked from:
+#
+# Fedora spec file for php-pecl-sphinx
 
 %define pecl_name   sphinx
 %global with_zts    0%{?__ztsphp:1}
-%if "%{php_version}" < "5.6"
-%global ini_name    %{pecl_name}.ini
-%else
 %global ini_name    40-%{pecl_name}.ini
-%endif
+%global php_base    php56u
 
-Name:           php-pecl-sphinx
-Version:        1.3.2
-Release:        4%{?dist}
+Name:           %{php_base}-pecl-%{pecl_name}
+Version:        1.3.3
+Release:        1.ius%{?dist}
 Summary:        PECL extension for Sphinx SQL full-text search engine
 Group:          Development/Languages
 License:        PHP
@@ -18,17 +17,31 @@ URL:            http://pecl.php.net/package/%{pecl_name}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
 BuildRequires:  libsphinxclient-devel
-BuildRequires:  php-pear
-BuildRequires:  php-devel >= 5.1.3
+BuildRequires:  %{php_base}-pear
+BuildRequires:  %{php_base}-devel
 Requires:       php(zend-abi) = %{php_zend_api}
 Requires:       php(api) = %{php_core_api}
-Requires(post): %{__pecl}
-Requires(postun): %{__pecl}
+Requires(post): %{php_base}-pear
+Requires(postun): %{php_base}-pear
 
-Provides:       php-%{pecl_name} = %{version}
-Provides:       php-%{pecl_name}%{?_isa} = %{version}
+# provide the stock and IUS names without pecl
+Provides:       php-%{pecl_name} = %{version}-%{release}
+Provides:       php-%{pecl_name}%{?_isa} = %{version}-%{release}
+Provides:       %{php_base}-%{pecl_name} = %{version}-%{release}
+Provides:       %{php_base}-%{pecl_name}%{?_isa} = %{version}-%{release}
+
+# provide the stock and IUS names in pecl() format
 Provides:       php-pecl(%{pecl_name}) = %{version}
 Provides:       php-pecl(%{pecl_name})%{?_isa} = %{version}
+Provides:       %{php_base}-pecl(%{pecl_name}) = %{version}
+Provides:       %{php_base}-pecl(%{pecl_name})%{?_isa} = %{version}
+
+# provide the stock name
+Provides:       php-pecl-%{pecl_name} = %{version}-%{release}
+Provides:       php-pecl-%{pecl_name}%{?_isa} = %{version}-%{release}
+
+# conflict with the stock name
+Conflicts:      php-pecl-%{pecl_name} < %{version}-%{release}
 
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # Filter private shared object
@@ -141,6 +154,10 @@ fi
 
 
 %changelog
+* Sun Jan 10 2016 Carl George <carl.george@rackspace.com> - 1.3.3-1.ius
+- Port from Fedora to IUS
+- Latest upstream
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
