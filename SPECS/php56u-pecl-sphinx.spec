@@ -8,18 +8,18 @@
 %global ini_name    40-%{pecl_name}.ini
 %endif
 
-Name:		php-pecl-sphinx
-Version:	1.3.2
-Release:	4%{?dist}
-Summary:	PECL extension for Sphinx SQL full-text search engine
-Group:		Development/Languages
-License:	PHP
-URL:		http://pecl.php.net/package/%{pecl_name}
-Source0:	http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
+Name:           php-pecl-sphinx
+Version:        1.3.2
+Release:        4%{?dist}
+Summary:        PECL extension for Sphinx SQL full-text search engine
+Group:          Development/Languages
+License:        PHP
+URL:            http://pecl.php.net/package/%{pecl_name}
+Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
-BuildRequires:	libsphinxclient-devel
+BuildRequires:  libsphinxclient-devel
 BuildRequires:  php-pear
-BuildRequires:	php-devel >= 5.1.3
+BuildRequires:  php-devel >= 5.1.3
 Requires:       php(zend-abi) = %{php_zend_api}
 Requires:       php(api) = %{php_core_api}
 Requires(post): %{__pecl}
@@ -40,6 +40,7 @@ Provides:       php-pecl(%{pecl_name})%{?_isa} = %{version}
 %description
 This extension provides PHP bindings for libsphinxclient, 
 client library for Sphinx the SQL full-text search engine.
+
 
 %prep
 %setup -q -c
@@ -101,12 +102,12 @@ make -C NTS install INSTALL_ROOT=%{buildroot}
 install -Dpm 644 package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
 
 # install config file
-install -Dpm644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
+install -Dpm 644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
 
 %if %{with_zts}
 # Install the ZTS stuff
 make -C ZTS install INSTALL_ROOT=%{buildroot}
-install -Dpm644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
+install -Dpm 644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 %endif
 
 # Documentation
