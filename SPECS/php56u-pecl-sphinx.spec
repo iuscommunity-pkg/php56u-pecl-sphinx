@@ -9,7 +9,7 @@
 
 Name:           %{php_base}-pecl-%{pecl_name}
 Version:        1.3.3
-Release:        1.ius%{?dist}
+Release:        2.ius%{?dist}
 Summary:        PECL extension for Sphinx SQL full-text search engine
 Group:          Development/Languages
 License:        PHP
